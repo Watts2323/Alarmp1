@@ -46,8 +46,6 @@
 		19B66B47213DB19F003F917E = {
 			isa = PBXGroup;
 			children = (
-				19B66B6D213DD4CD003F917E /* Models */,
-				19B66B6A213DD2A7003F917E /* Views */,
 				19B66B52213DB1A0003F917E /* Alarmp1 */,
 				19B66B51213DB1A0003F917E /* Products */,
 			);
@@ -64,6 +62,8 @@
 		19B66B52213DB1A0003F917E /* Alarmp1 */ = {
 			isa = PBXGroup;
 			children = (
+				19B66B6A213DD2A7003F917E /* Views */,
+				19B66B6D213DD4CD003F917E /* Models */,
 				19B66B53213DB1A0003F917E /* AppDelegate.swift */,
 				19B66B57213DB1A0003F917E /* Main.storyboard */,
 				19B66B69213DD294003F917E /* Controllers */,

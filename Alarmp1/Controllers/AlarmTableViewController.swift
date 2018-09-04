@@ -8,44 +8,67 @@
 
 import UIKit
 
-class AlarmTableViewController: UITableViewController {
-    
-    
-override func viewDidLoad() {
-        super.viewDidLoad()
+protocol AlarmTableViewCellDelegate: class{
+    func alarmWasToggled(sender: AlarmTableViewCell)
 }
 
-    // MARK: - Table view data source
+
+class AlarmsTableViewController: UITableViewController, AlarmTableViewCellDelegate , AlarmScheduler{
+    
+    func alarmWasToggled(sender: AlarmTableViewCell) {
+        guard let indexPath = tableView.indexPath(for: sender) else {return}
+        let alarm = AlarmController.shared.alarms[indexPath.row]
+        AlarmController.shared.toggleEnabled(for: alarm)
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return AlarmController.shared.alarms.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as? AlarmTableViewCell
+        let alarm = AlarmController.shared.alarms[indexPath.row]
+        cell?.delegate = self
+        cell?.alarm = alarm
+        
+        return cell ?? UITableViewCell()
     }
-
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            let alarm = AlarmController.shared.alarms[indexPath.row]
+            AlarmController.shared.delete(alarm: alarm)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-
+    
+    
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "toAlarmVC"{
+            guard let indexPath = tableView.indexPathForSelectedRow else {return}
+            let alarm = AlarmController.shared.alarms[indexPath.row]
+            let destinationVC = segue.destination as? AlarmDetailTableViewController
+            destinationVC?.alarm = alarm
+        }
     }
-
+    
 }

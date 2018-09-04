@@ -11,6 +11,7 @@ import Foundation
 class AlarmController {
     
     static let shared = AlarmController()
+
     
     //Source Of Truth
     var alarms = [Alarm]()

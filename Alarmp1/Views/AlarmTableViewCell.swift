@@ -24,11 +24,19 @@ class AlarmTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        
     }
     
+    func updateViews(){
+        guard let alarm = alarm else {return}
+        
+        nameLabel.text = alarm.name
+        timeLabel.text = alarm.fireTimeAsString
+        alarmSwitch.isOn = alarm.enabled
+    }
+    
+    
     @IBAction func alarmSwitched(_ sender: UISwitch) {
+        delegate?.alarmWasToggled(sender: self)
     }
     
     
