@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Alarm: Equatable {
+class Alarm: Equatable, Codable {
     static func == (lhs: Alarm, rhs: Alarm) -> Bool {
         if lhs.enabled != rhs.enabled { return false}
         if lhs.fireDate != rhs.fireDate { return false }

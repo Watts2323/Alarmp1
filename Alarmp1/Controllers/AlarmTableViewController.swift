@@ -8,9 +8,9 @@
 
 import UIKit
 
-protocol AlarmTableViewCellDelegate: class{
-    func alarmWasToggled(sender: AlarmTableViewCell)
-}
+//protocol AlarmTableViewCellDelegate: class{
+//    func alarmWasToggled(sender: AlarmTableViewCell)
+//}
 
 
 class AlarmsTableViewController: UITableViewController, AlarmTableViewCellDelegate , AlarmScheduler{

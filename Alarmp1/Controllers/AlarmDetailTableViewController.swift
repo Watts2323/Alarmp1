@@ -44,7 +44,7 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
         
         switch alarmIsOn {
         case true:
-            alarmEnabledButton.backgroundColor = UIColor.green
+            alarmEnabledButton.backgroundColor = UIColor.yellow
             alarmEnabledButton.setTitle("ON", for: .normal)
         case false:
             alarmEnabledButton.backgroundColor = UIColor.gray
@@ -57,11 +57,26 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
     
     
     @IBAction func alarmEnabledButtonTapped(_ sender: UIButton) {
+        
+        if let alarm = alarm {
+            AlarmController.shared.toggleEnabled(for: alarm)
+            alarmIsOn = alarm.enabled
+        }else{
+            alarmIsOn = !alarmIsOn
+        }
+        setUpAlarmButton()
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let title = titleTextField.text else {return}
+        guard title != "" else {return}
+        
+        if let alarm = alarm{
+            AlarmController.shared.update(alarm: alarm, name: title, fireDate: datePicker.date, enabled: alarmIsOn)
+        } else{
+            AlarmController.shared.create(name: title, fireDate: datePicker.date, enabled: alarmIsOn)
+        }
+        self.navigationController?.popViewController(animated: true)
     }
-    
-    
-
 }
+

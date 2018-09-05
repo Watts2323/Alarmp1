@@ -8,7 +8,19 @@
 
 import UIKit
 
+protocol AlarmTableViewCellDelegate: class{
+    func alarmWasToggled(sender: AlarmTableViewCell)
+}
+
 class AlarmTableViewCell: UITableViewCell {
+    
+    var alarm: Alarm?{
+        didSet{
+            updateViews()
+        }
+    }
+    
+    weak var delegate: AlarmTableViewCellDelegate?
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -38,7 +50,4 @@ class AlarmTableViewCell: UITableViewCell {
     @IBAction func alarmSwitched(_ sender: UISwitch) {
         delegate?.alarmWasToggled(sender: self)
     }
-    
-    
-
 }
